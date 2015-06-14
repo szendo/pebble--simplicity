@@ -1,0 +1,39 @@
+{
+    "appKeys": {},
+    "capabilities": [
+        ""
+    ],
+    "companyName": "sendow",
+    "longName": "Simplicity'",
+    "projectType": "native",
+    "resources": {
+        "media": [
+            {
+                "file": "images/status.png",
+                "name": "IMAGE_STATUS",
+                "type": "png"
+            },
+            {
+                "file": "images/digits.png",
+                "name": "IMAGE_DIGITS",
+                "type": "png"
+            },
+            {
+                "file": "images/menu_icon.png",
+                "menuIcon": true,
+                "name": "IMAGE_MENU_ICON",
+                "type": "png"
+            }
+        ]
+    },
+    "sdkVersion": "3",
+    "shortName": "Simplicity'",
+    "targetPlatforms": [
+        "basalt"
+    ],
+    "uuid": "6ca7b8e2-c010-45e7-8f1c-c1ae99c3a38f",
+    "versionLabel": "1.1",
+    "watchapp": {
+        "watchface": true
+    }
+}
