@@ -1,10 +1,9 @@
 # Changelog
 
-## [Unreleased]
+## [1.5] - 2015-10-18
 
-Added day of the week above the date.
-
-Preparations to support the Pebble Time Round.
+- Added support for "Chalk" platform
+- Added configuration support: day of the week can be optionally displayed above the date
 
 ## [1.1] - 2015-06-14
 

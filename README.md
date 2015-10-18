@@ -22,4 +22,8 @@ The status icons are based on Material icons by Google: https://fonts.google.com
 
 ### Basalt (Pebble Time, Pebble Time Steel)
 
-![](assets/screenshots/basalt/1.png) ![](assets/screenshots/basalt/2.png)
+![](assets/screenshots/basalt/1.png) ![](assets/screenshots/basalt/2.png) ![](assets/screenshots/basalt/3.png)
+
+### Chalk (Pebble Time Round)
+
+![](assets/screenshots/chalk/1.png) ![](assets/screenshots/chalk/2.png) ![](assets/screenshots/chalk/3.png)

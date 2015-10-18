@@ -1,4 +1,5 @@
 #include <pebble.h>
+#include "config.h"
 
 static Window *s_main_window;
 static TextLayer *s_dow_layer;
@@ -17,6 +18,8 @@ static GBitmap *s_status_bitmap;
 static GBitmap *s_conn_bitmap;
 static GBitmap *s_batt_bitmap;
 static GBitmap *s_batt_charge_bitmap;
+
+static bool s_conf_day_of_week_enabled = false;
 
 static void line_layer_update_callback(Layer *layer, GContext* ctx) {
   graphics_context_set_fill_color(ctx, GColorWhite);
@@ -65,17 +68,19 @@ static void status_layer_update_callback(Layer *layer, GContext* ctx) {
 }
 
 static void handle_minute_tick(struct tm *tick_time, TimeUnits units_changed) {
-  static char s_date_text[] = "Xxxxxxxxx 00";
-  static char s_dow_text[] = "Xxxxxxxxx 00";
-  
+  static char s_date_text[21];
+  static char s_dow_text[21];
+
   memcpy(&curr_time, tick_time, sizeof(struct tm));
   layer_mark_dirty(s_time_layer);
 
   strftime(s_date_text, sizeof(s_date_text), "%B %e", tick_time);
   text_layer_set_text(s_date_layer, s_date_text);
 
-  strftime(s_dow_text, sizeof(s_dow_text), "%A", tick_time);
-  text_layer_set_text(s_dow_layer, s_dow_text);
+  if (s_conf_day_of_week_enabled) {
+    strftime(s_dow_text, sizeof(s_dow_text), "%A", tick_time);
+    text_layer_set_text(s_dow_layer, s_dow_text);
+  }
 }
 
 static void handle_connection_change(bool connected) {
@@ -88,29 +93,45 @@ static void handle_battery_state_change(BatteryChargeState battery) {
   layer_mark_dirty(s_status_layer);
 }
 
+static void config_changed_handler() {
+  bool old_day_of_week_enabled = s_conf_day_of_week_enabled;
+  s_conf_day_of_week_enabled = config_get_day_of_week_enabled();
+
+  if (s_conf_day_of_week_enabled != old_day_of_week_enabled) {
+    layer_set_hidden(text_layer_get_layer(s_dow_layer), !s_conf_day_of_week_enabled);
+
+    time_t now = time(NULL);
+    struct tm *t = localtime(&now);
+    handle_minute_tick(t, MINUTE_UNIT);
+  }
+}
+
 static void main_window_load(Window *window) {
   Layer *window_layer = window_get_root_layer(window);
 
   int x_off = PBL_IF_RECT_ELSE(0, 18);
   int y_off = PBL_IF_RECT_ELSE(0, 6);
+
   s_date_layer = text_layer_create(GRect(8 + x_off, 62 + y_off, 136, 100));
   text_layer_set_text_color(s_date_layer, GColorWhite);
   text_layer_set_background_color(s_date_layer, GColorClear);
   text_layer_set_font(s_date_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28));
   layer_add_child(window_layer, text_layer_get_layer(s_date_layer));
 
-  s_dow_layer = text_layer_create(GRect(8 + x_off, 34 + y_off, 136, 100));
+  s_dow_layer = text_layer_create(GRect(8 + x_off, 38 + y_off, 136, 100));
   text_layer_set_text_color(s_dow_layer, GColorWhite);
   text_layer_set_background_color(s_dow_layer, GColorClear);
   text_layer_set_font(s_dow_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28));
+  if (!config_get_day_of_week_enabled()) {
+    layer_set_hidden(text_layer_get_layer(s_dow_layer), true);
+  }
   layer_add_child(window_layer, text_layer_get_layer(s_dow_layer));
 
   s_time_layer = layer_create(GRect(7 + x_off, 105 + y_off, 125, 40));
   layer_set_update_proc(s_time_layer, time_layer_update_callback);
   layer_add_child(window_layer, s_time_layer);
 
-  int w_off = PBL_IF_RECT_ELSE(0, 15);
-  s_line_layer = layer_create(GRect(8 + x_off, 97 + y_off, 139 + w_off, 2));
+  s_line_layer = layer_create(GRect(8 + x_off, 97 + y_off, PBL_IF_RECT_ELSE(136, 154), 2));
   layer_set_update_proc(s_line_layer, line_layer_update_callback);
   layer_add_child(window_layer, s_line_layer);
 
@@ -151,7 +172,10 @@ static void init() {
   bluetooth_connection_service_subscribe(handle_connection_change);
   s_battery = battery_state_service_peek();
   battery_state_service_subscribe(handle_battery_state_change);
-  
+
+  config_open(config_changed_handler);
+  config_changed_handler();
+
   tick_timer_service_subscribe(MINUTE_UNIT, handle_minute_tick);  
   // Prevent starting blank
   time_t now = time(NULL);
