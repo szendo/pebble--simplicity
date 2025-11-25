@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.6] - 2025-11-25
+
+Update the config to a reachable archive created by ave
+
 ## [1.5] - 2015-10-18
 
 - Added support for "Chalk" platform

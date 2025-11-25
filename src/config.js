@@ -1,5 +1,5 @@
 Pebble.addEventListener('showConfiguration', function(e) {
-  Pebble.openURL('http://sendow.github.io/pebble/simplicity/config.html');
+  Pebble.openURL('https://aveao.github.io/Pebble-App-Config-Page-Backup/archive/sendow.github.io/pebble/simplicity/config/config_557d63dba404afe20200000a_basalt.html');
 });
 
 Pebble.addEventListener('webviewclosed', function(e) {
