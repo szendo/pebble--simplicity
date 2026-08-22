@@ -1,8 +1,8 @@
 # Changelog
 
-[Unreleased]
+## [1.7.0] - 2026-08-22
 
-Updated code from latest CloudPebble export
+Fixed configuration page (now using Clay)
 
 ## [1.6] - 2025-11-25
 

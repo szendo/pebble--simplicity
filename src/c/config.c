@@ -1,7 +1,7 @@
 #include <pebble.h>
 #include "config.h"
 
-#define DAY_OF_WEEK_ENABLED 1
+#define STORAGE_KEY_DAY_OF_WEEK_ENABLED 1
 
 static bool s_day_of_week_enabled;
 
@@ -10,10 +10,8 @@ static ConfigChanged change_callback;
 static void app_message_inbox_received(DictionaryIterator *iterator, void *context) {
   Tuple *next_tuple = dict_read_first(iterator);
   while (NULL != next_tuple) {
-    switch (next_tuple->key) {
-      case DAY_OF_WEEK_ENABLED:
-        persist_write_int(DAY_OF_WEEK_ENABLED, s_day_of_week_enabled = next_tuple->value->uint8);
-        break;
+    if (next_tuple->key == MESSAGE_KEY_DAY_OF_WEEK_ENABLED) {
+      persist_write_int(STORAGE_KEY_DAY_OF_WEEK_ENABLED, s_day_of_week_enabled = next_tuple->value->uint8);
     }
     next_tuple = dict_read_next(iterator);
   }
@@ -21,7 +19,7 @@ static void app_message_inbox_received(DictionaryIterator *iterator, void *conte
 }
 
 static void read_config_v0() {
-  s_day_of_week_enabled = persist_read_int(DAY_OF_WEEK_ENABLED);
+  s_day_of_week_enabled = persist_read_int(STORAGE_KEY_DAY_OF_WEEK_ENABLED);
 }
 
 void config_open(ConfigChanged callback) {

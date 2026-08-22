@@ -1,0 +1,20 @@
+[
+  {
+    "type": "section",
+    "items": [
+      {
+        "type": "heading",
+        "defaultValue": "Customization"
+      },
+      {
+        "type": "toggle",
+        "messageKey": "DAY_OF_WEEK_ENABLED",
+        "label": "Show day of the week"
+      }
+    ]
+  },
+  {
+    "type": "submit",
+    "defaultValue": "Save"
+  }
+]
