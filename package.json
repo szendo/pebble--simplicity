@@ -1,0 +1,47 @@
+{
+    "author": "sendow",
+    "dependencies": {},
+    "keywords": [],
+    "name": "simplicity",
+    "pebble": {
+        "capabilities": [
+            "configurable"
+        ],
+        "displayName": "Simplicity'",
+        "enableMultiJS": false,
+        "messageKeys": {
+            "DAY_OF_WEEK_ENABLED": 1
+        },
+        "projectType": "native",
+        "resources": {
+            "media": [
+                {
+                    "file": "images/menu_icon.png",
+                    "menuIcon": true,
+                    "name": "IMAGE_MENU_ICON",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/status.png",
+                    "name": "IMAGE_STATUS",
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/digits.png",
+                    "name": "IMAGE_DIGITS",
+                    "type": "bitmap"
+                }
+            ]
+        },
+        "sdkVersion": "3",
+        "targetPlatforms": [
+            "basalt",
+            "chalk"
+        ],
+        "uuid": "6ca7b8e2-c010-45e7-8f1c-c1ae99c3a38f",
+        "watchapp": {
+            "watchface": true
+        }
+    },
+    "version": "1.5.0"
+}
